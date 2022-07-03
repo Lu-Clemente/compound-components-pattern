@@ -4,6 +4,11 @@ const OuterBox = ({ children }) => {
     const [checked, setChecked] = useState(false)
 
     const allChidren = Children.map(children, (child) => {
+
+        if(child.type !== Label && child.type !== CheckboxInput) {
+            throw new Error(`No custom elements allowed, but found <${child.type}/>`)
+        }
+        
         const clone = cloneElement(child, {
             checked,
             setChecked
@@ -34,7 +39,6 @@ const Checkbox = ({ label }) => {
     return (
         <OuterBox>
             <CheckboxInput />
-            <br/>
             <Label label={label} />
         </OuterBox>
     )

@@ -1,14 +1,15 @@
-import React, { Children, cloneElement, useState } from "react"
+import React, { Children, cloneElement, useState } from "react";
+import { Checks, ChecksLabel } from "./styles";
 
 const OuterBox = ({ children }) => {
     const [checked, setChecked] = useState(false)
 
     const allChidren = Children.map(children, (child) => {
 
-        if(child.type !== Label && child.type !== CheckboxInput) {
+        if (child.type !== Label && child.type !== CheckboxInput) {
             throw new Error(`No custom elements allowed, but found <${child.type}/>`)
         }
-        
+
         const clone = cloneElement(child, {
             checked,
             setChecked
@@ -17,16 +18,17 @@ const OuterBox = ({ children }) => {
     })
 
     return allChidren
+
 }
 
 const CheckboxInput = ({ checked, setChecked }) => {
 
-    if(!setChecked) {
+    if (!setChecked) {
         throw new Error('CheckboxInput should be called inside a OuterBox component')
     }
 
     return (
-        <input
+        <Checks
             type="checkbox"
             checked={checked}
             onChange={(e) => setChecked(e.target.checked)}
@@ -36,12 +38,12 @@ const CheckboxInput = ({ checked, setChecked }) => {
 
 const Label = ({ label = "Are you a developer?", setChecked }) => {
 
-    if(!setChecked) {
+    if (!setChecked) {
         throw new Error('Label should be called inside a OuterBox component')
     }
 
     return (
-        <label onClick={() => setChecked(value => !value)}>{label}</label>
+        <ChecksLabel onClick={() => setChecked(value => !value)}>{label}</ChecksLabel>
     )
 }
 

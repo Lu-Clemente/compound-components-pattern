@@ -1,8 +1,12 @@
 import Checkbox from "./components/Checkbox";
+import { ChackboxWrapper, Title } from "./styles";
 
 function App() {
   return (
-    <Checkbox label="Are you ok?" />
+    <ChackboxWrapper>
+      <Title>Compound components Example</Title>
+      <Checkbox label="Are you ok?" />
+    </ChackboxWrapper>
   );
 }
 

@@ -19,14 +19,14 @@ const CheckboxInput = ({ checked, setChecked }) => {
         <input
             type="checkbox"
             checked={checked}
-            onClick={(e) => setChecked(e.target.checked)}
+            onChange={(e) => setChecked(e.target.checked)}
         />
     )
 }
 
 const Label = ({ label = "Are you a developer?", setChecked }) => {
     return (
-        <lable onClick={() => setChecked(value => !value)}>{label}</lable>
+        <label onClick={() => setChecked(value => !value)}>{label}</label>
     )
 }
 
@@ -34,6 +34,7 @@ const Checkbox = ({ label }) => {
     return (
         <OuterBox>
             <CheckboxInput />
+            <br/>
             <Label label={label} />
         </OuterBox>
     )

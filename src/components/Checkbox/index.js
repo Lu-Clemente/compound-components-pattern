@@ -20,6 +20,11 @@ const OuterBox = ({ children }) => {
 }
 
 const CheckboxInput = ({ checked, setChecked }) => {
+
+    if(!setChecked) {
+        throw new Error('CheckboxInput should be called inside a OuterBox component')
+    }
+
     return (
         <input
             type="checkbox"
@@ -30,6 +35,11 @@ const CheckboxInput = ({ checked, setChecked }) => {
 }
 
 const Label = ({ label = "Are you a developer?", setChecked }) => {
+
+    if(!setChecked) {
+        throw new Error('Label should be called inside a OuterBox component')
+    }
+
     return (
         <label onClick={() => setChecked(value => !value)}>{label}</label>
     )

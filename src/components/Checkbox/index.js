@@ -1,29 +1,33 @@
-import React, { Children, cloneElement, useState } from "react"
+import React,
+{ Children, cloneElement, createContext, useContext, useState }
+    from "react"
+
+const CheckboxContext = createContext(null);
 
 const OuterBox = ({ children }) => {
     const [checked, setChecked] = useState(false)
 
-    const allChidren = Children.map(children, (child) => {
-
-        if(child.type !== Label && child.type !== CheckboxInput) {
-            throw new Error(`No custom elements allowed, but found <${child.type}/>`)
-        }
-        
-        const clone = cloneElement(child, {
-            checked,
-            setChecked
-        })
-        return clone
-    })
-
-    return allChidren
+    return (
+        <CheckboxContext.Provider
+            value={{
+                checked,
+                setChecked
+            }}
+        >
+            {children}
+        </CheckboxContext.Provider>
+    )
 }
 
-const CheckboxInput = ({ checked, setChecked }) => {
+const CheckboxInput = () => {
 
-    if(!setChecked) {
+    const context = useContext(CheckboxContext)
+
+    if (!context) {
         throw new Error('CheckboxInput should be called inside a OuterBox component')
     }
+
+    const { checked, setChecked } = context
 
     return (
         <input
@@ -34,11 +38,15 @@ const CheckboxInput = ({ checked, setChecked }) => {
     )
 }
 
-const Label = ({ label = "Are you a developer?", setChecked }) => {
+const Label = ({ label = "Are you a developer?" }) => {
 
-    if(!setChecked) {
+    const context = useContext(CheckboxContext)
+
+    if (!context) {
         throw new Error('Label should be called inside a OuterBox component')
     }
+
+    const { setChecked } = context
 
     return (
         <label onClick={() => setChecked(value => !value)}>{label}</label>
